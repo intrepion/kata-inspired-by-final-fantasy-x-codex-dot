@@ -14,3 +14,6 @@ P2: Reserve statuses were absent. Fixed by displaying Slow and Guard durations a
 - Native dialog tab cycling briefly focused the document. Explicit boundary wrapping now keeps 12 consecutive Tab cycles inside the modal. Background controls remain inert.
 
 No unresolved correctness findings. The classification advisory remains a documented maintenance tradeoff.
+
+## Follow-up verification
+Both independent reviewers rechecked `53bb86a...a86d0e7`. Standards: runtime key validation fixed, 17 affected combat/progression tests passed, no new documented-standard violations; focus wrapping reviewed statically. Spec: both duration/visibility findings fixed, 12 combat tests passed, no new functional mismatches. Browser observations were executed by the main implementer, not independently replayed by the reviewers.
