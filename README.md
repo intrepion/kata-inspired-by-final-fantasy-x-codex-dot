@@ -1,15 +1,16 @@
 # Glasswake · The Last Lantern
 A complete original illustrated browser party RPG, inspired by the strategic patterns of Final Fantasy X. The ocean has turned to glass. Four lighthouse keepers carry one living flame through five beacons, confront the Stillheart, and bring tomorrow back.
 
-**Play:** http://127.0.0.1:5187/ on this Mac. A supported terminal session runs the local server; it lasts until stopped or the host/session exits. No boot/login autostart. Previous game repositories and ports 5173–5186 are untouched. This folder is a cloned repository, not a newly registered Codex sidebar project (no supported registration capability was available).
+**Play:** http://127.0.0.1:5187/ on this Mac. `npm start` runs a detached session-only production preview. It survives the task/terminal ending, but not logout/reboot or manual process termination. It prints its PID and stop command; logs are at `/tmp/glasswake-5187.log`. No boot/login autostart. Previous game repositories and ports 5173–5186 are untouched. This folder is a cloned repository, not a newly registered Codex sidebar project (no supported registration capability was available).
 
 ## Restart
 ```sh
 cd /Users/intrepion/Documents/Codex/2026-10-11/task-3/kata-inspired-by-final-fantasy-x-codex-dot
 npm ci
-npm run dev
+npm run build
+npm start
 ```
-Node 24+ required. `npm run dev` uses loopback only and strict port 5187; if occupied, stop the existing Glasswake session before restarting. No paid services or public deployment.
+Node 24+ required. `npm start` uses loopback only and strict port 5187; repeating it reuses an existing Glasswake server. If another service occupies the port, it refuses to replace it. `npm run dev` is the foreground development alternative. No paid services or public deployment.
 
 ## Controls and strategy
 Pointer/touch native buttons, or Tab / Shift+Tab and Enter / Space. Escape cancels a selected action or opens/closes pause. Pick action → pick target when required → confirm. Menus do not spend turns. Costs and recovery previews are visible.
