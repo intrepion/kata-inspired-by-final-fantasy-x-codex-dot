@@ -84,7 +84,7 @@ export function act(before:Battle,a:Action,expectedRevision:number):Battle{
  if(['tonic','ether','seed'].includes(a.kind))b.items[a.kind as keyof Journey['items']]--;
  if(u.hero&&a.kind!=='special')u.charge=Math.min(100,u.charge+18);
  u.ready=time+recovery;
- if(u.slow>0)u.slow--;if(u.guard>0)u.guard--;
+ if(u.slow>0)u.slow--;if(u.guard>0&&a.kind!=='protect')u.guard--;
  }
  b.revision++;b.turns++;b.log=[text,...b.log].slice(0,8);
  if(!b.units.some(x=>!x.hero&&x.hp>0))b.outcome='won';
@@ -105,7 +105,7 @@ export function purchase(j:Journey,id:string):Journey{
 }
 export const prices={tonic:20,ether:25,seed:35};
 export function buy(j:Journey,item:keyof Journey['items']):Journey{
- if(!(item in prices)||j.coins<prices[item]||j.items[item]>=99)throw Error('Cannot purchase this supply.');
+ if(!Object.hasOwn(prices,item)||j.coins<prices[item]||j.items[item]>=99)throw Error('Cannot purchase this supply.');
  return {...j,coins:j.coins-prices[item],items:{...j.items,[item]:j.items[item]+1}};
 }
 export function complete(j:Journey,b:Battle):Journey{

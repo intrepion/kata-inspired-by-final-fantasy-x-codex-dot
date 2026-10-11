@@ -1,5 +1,5 @@
 # Glasswake: The Last Lantern
-An original 25–40 minute tactical journey across a sea suspended in glass. Four lighthouse keepers reopen five silent beacons and confront the machine that confuses safety with stillness.
+An original 10–20 minute tactical journey across a sea suspended in glass. Four lighthouse keepers reopen five silent beacons and confront the machine that confuses safety with stillness.
 
 ## Delegated design tree
 User authorized recommended decisions and no design questions. Settled frontier: TypeScript/Vite, original procedural vector illustrations, no paid services; four heroes/three slots; node travel/five chapters; fixed conditional scheduler; shared constellation upgrades with per-hero benefits; individual Charge and collective Lighthouse ability; checkpoint saves; keyboard/native buttons; synthesizer music opt-in. No unresolved prerequisites.

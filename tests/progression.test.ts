@@ -7,3 +7,4 @@ test('save validator rejects malformed unknown versions, currencies and disconne
  expect(decodeSave('{oops')).toBeUndefined();
 });
 test('shop purchase is atomic and rejects overspend and item overflow',()=>{const j=buy(fresh(),'seed');expect(j.coins).toBe(25);expect(j.items.seed).toBe(3);expect(()=>buy(j,'seed')).toThrow();expect(j.coins).toBe(25);expect(()=>buy({...fresh(),items:{tonic:99,ether:2,seed:2}},'tonic')).toThrow();});
+test('runtime shop item keys reject prototype names without corrupting currency',()=>{for(const item of ['constructor','__proto__','missing']){const j=fresh();expect(()=>buy(j,item as 'tonic')).toThrow();expect(j.coins).toBe(60);}});
