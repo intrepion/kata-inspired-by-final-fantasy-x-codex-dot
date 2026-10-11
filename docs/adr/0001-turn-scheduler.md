@@ -1,0 +1,2 @@
+# Absolute conditional initiative
+Actors have integer ready ticks and stable ID tie breaking. The minimum ready living actor acts; recovery depends on action and role, with Slow adding 40 ticks. Preview clones the same scheduling transition, including status expiration, but future turns assume basic attacks; it is explicitly provisional. Reserve swapping transfers the outgoing slot's initiative plus a 35-tick cost; forced replacement is free and required before any subsequent action. This gives predictable strategy without reproducing FFX's exact formulas.
