@@ -6,7 +6,7 @@ User authorized recommended decisions and no design questions. Settled frontier:
 
 ## Acceptance criteria
 - Complete five-encounter story, camp conversations, distinct environments, final boss and ending.
-- Heroes: Iona (shield), Sable (elementalist), Tavi (quick scout), Orin (healer). Three active; living reserve swap costs a short turn. Fainted slot must be replaced when reserve survives. All four receive equal shared growth.
+- Heroes: Iona (shield), Sable (elementalist), Tavi (quick scout), Orin (healer). Three active; a living reserve can replace the acting keeper for free and act immediately. Chained voluntary swaps retain one action opportunity; only the subsequent ordinary command spends a combat turn, its own MP/resources and recovery. Swap confirmation increments revision, preserving stale-command rejection. Actor-owned HP/MP/Charge/status and earned recovery stay with that actor; opening initiative is not earned recovery. Fainted slot must be replaced when reserve survives. All four receive equal shared growth.
 - No real-time battle clock. Preview is a pure projection of committed action delay; cancel spends nothing. One confirmation resolves once with an expected revision token.
 - Costs, targets, weaknesses/resistances, enemy intents, HP/MP/charge/status duration visible. Dead actors never act. Healing cannot target dead; revival can. Charge specials and Lighthouse consume their gauges.
 - Constellation nodes require a purchased adjacent node and enough shared sparks. Purchase atomic; permanent upgrades apply equally to all four.

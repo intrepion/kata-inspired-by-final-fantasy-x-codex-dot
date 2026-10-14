@@ -13,8 +13,8 @@ test('Slow changes recovery for exactly three target actions and preview matches
  for(let i=0;i<3;i++){b.units.forEach(u=>u.ready=u.id==='foe0'?0:1000);const predicted=preview(b,{kind:'enemy'});const n=act(b,{kind:'enemy'},b.revision);expect(n.units.find(u=>u.id==='foe0')!.ready).toBe(150);expect(n.units.find(u=>u.id==='foe0')!.slow).toBe(2-i);expect(predicted[0]).toBe(current(n)!.id);b=n;}
  expect(delay(b,b.units.find(u=>u.id==='foe0')!,{kind:'enemy'})).toBe(110);
 });
-test('voluntary swap costs 35 ticks and forced replacement rejects any other action',()=>{
- const b=ready('tavi');const switched=act(b,{kind:'swap',target:'orin'},0);expect(switched.active).toEqual(['iona','sable','orin']);expect(switched.units.find(u=>u.id==='orin')!.ready).toBe(35);
+test('forced replacement stays free and rejects any other action',()=>{
+ const b=ready('tavi');
  b.units.find(u=>u.id==='iona')!.hp=0;expect(forcedSlot(b)).toBe('iona');expect(()=>act(b,{kind:'attack',target:'foe0'},0)).toThrow('Replace');expect(()=>act(b,{kind:'swap',target:'sable'},0)).toThrow();const forced=act(b,{kind:'swap',target:'orin'},0);expect(forced.active).toEqual(['orin','sable','tavi']);expect(forced.units.find(u=>u.id==='orin')!.ready).toBe(0);
 });
 test('healing and revival have distinct valid targets, caps, and resources',()=>{

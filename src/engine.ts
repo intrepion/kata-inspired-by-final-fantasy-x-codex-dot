@@ -1,7 +1,7 @@
 import {chapters,heroes,nodes,type Element} from './content';
 export type Journey={version:1;chapter:number;coins:number;sparks:number;nodes:string[];items:{tonic:number;ether:number;seed:number}};
-export type Unit={id:string;name:string;hero:boolean;hp:number;maxHp:number;mp:number;maxMp:number;power:number;speed:number;ready:number;charge:number;slow:number;guard:number;weak:Element;resist:Element;armor:boolean;form:string};
-export type Battle={chapter:number;units:Unit[];active:string[];items:Journey['items'];revision:number;turns:number;lighthouse:number;ward:number;tempo:number;outcome:'playing'|'won'|'lost';log:string[]};
+export type Unit={id:string;name:string;hero:boolean;hp:number;maxHp:number;mp:number;maxMp:number;power:number;speed:number;ready:number;recoveryUntil?:number;charge:number;slow:number;guard:number;weak:Element;resist:Element;armor:boolean;form:string};
+export type Battle={chapter:number;units:Unit[];active:string[];items:Journey['items'];revision:number;turns:number;lighthouse:number;ward:number;tempo:number;outcome:'playing'|'won'|'lost';log:string[];opportunity?:{actor:string;time:number}};
 export type Action={kind:'attack'|'ember'|'tide'|'volt'|'heal'|'revive'|'bind'|'protect'|'guard'|'special'|'lighthouse'|'tonic'|'ether'|'seed'|'swap'|'enemy';target?:string};
 export const fresh=():Journey=>({version:1,chapter:0,coins:60,sparks:0,nodes:['root'],items:{tonic:4,ether:2,seed:2}});
 export function startBattle(j:Journey):Battle{
@@ -9,7 +9,10 @@ export function startBattle(j:Journey):Battle{
  const hp=j.nodes.includes('heart')?40:0,mp=j.nodes.includes('well')?12:0,power=j.nodes.includes('edge')?8:0;
  return {chapter:j.chapter,units:[...heroes.map(h=>({id:h.id,name:h.name,hero:true,hp:h.hp+hp,maxHp:h.hp+hp,mp:h.mp+mp,maxMp:h.mp+mp,power:h.power+power,speed:h.speed,ready:h.id==='tavi'?0:h.id==='iona'?15:h.id==='sable'?25:30,charge:0,slow:0,guard:0,weak:'none' as Element,resist:'none' as Element,armor:false,form:'hero'})),...chapters[j.chapter].foes.map((e,i)=>({id:`foe${i}`,name:e.name,hero:false,hp:e.hp,maxHp:e.hp,mp:0,maxMp:0,power:e.power,speed:e.speed,ready:45+i*10,charge:0,slow:0,guard:0,weak:e.weak,resist:e.resist,armor:e.armor,form:e.form}))],active:['iona','sable','tavi'],items:{...j.items},revision:0,turns:0,lighthouse:j.nodes.includes('beacon')?40:0,ward:j.nodes.includes('ward')?5:0,tempo:j.nodes.includes('tempo')?15:0,outcome:'playing',log:['The flame steadies. Choose your moment.']};
 }
-export function current(b:Battle):Unit|undefined{return b.units.filter(u=>u.hp>0&&(!u.hero||b.active.includes(u.id))).sort((a,c)=>a.ready-c.ready||a.id.localeCompare(c.id))[0];}
+export function current(b:Battle):Unit|undefined{
+ const incoming=b.opportunity&&b.units.find(u=>u.id===b.opportunity!.actor&&u.hp>0&&b.active.includes(u.id));
+ if(incoming)return incoming;
+ return b.units.filter(u=>u.hp>0&&(!u.hero||b.active.includes(u.id))).sort((a,c)=>a.ready-c.ready||a.id.localeCompare(c.id))[0];}
 export function forcedSlot(b:Battle):string|undefined{
  if(b.outcome!=='playing'||!b.units.some(u=>u.hero&&u.hp>0&&!b.active.includes(u.id)))return;
  return b.active.find(id=>b.units.find(u=>u.id===id)!.hp===0);
@@ -17,7 +20,14 @@ export function forcedSlot(b:Battle):string|undefined{
 export const costs:Record<Action['kind'],number>={attack:0,ember:5,tide:5,volt:5,heal:6,revive:10,bind:4,protect:4,guard:0,special:0,lighthouse:0,tonic:0,ether:0,seed:0,swap:0,enemy:0};
 export function delay(b:Battle,u:Unit,a:Action):number{
  const modifier:Partial<Record<Action['kind'],number>>={ember:25,tide:25,volt:25,heal:20,revive:40,bind:15,protect:10,guard:-20,special:55,lighthouse:65,tonic:10,ether:10,seed:25};
- return a.kind==='swap'?35:Math.max(25,u.speed+(modifier[a.kind]??0)+(u.slow>0?40:0)-(u.hero?b.tempo:0));
+ return a.kind==='swap'?0:Math.max(25,u.speed+(modifier[a.kind]??0)+(u.slow>0?40:0)-(u.hero?b.tempo:0));
+}
+function recover(b:Battle,u:Unit,ticks:number){
+ const time=b.opportunity?.time??u.ready;
+ // Opening initiative is not debt; only previously earned recovery survives a free swap.
+ u.ready=(b.opportunity?Math.max(time,u.recoveryUntil??time):time)+ticks;
+ if(u.hero)u.recoveryUntil=u.ready;
+ delete b.opportunity;
 }
 export function actions(u:Unit):Action['kind'][] {
  if(!u.hero)return ['enemy'];
@@ -47,18 +57,20 @@ export function act(before:Battle,a:Action,expectedRevision:number):Battle{
  if(expectedRevision!==before.revision)throw Error('That turn has already resolved.');
  const invalid=reason(before,a);if(invalid)throw Error(invalid);
  const b=structuredClone(before),u=current(b)!,forced=forcedSlot(b),t=b.units.find(x=>x.id===a.target);
- const time=u.ready,recovery=delay(b,u,a);
+ const time=b.opportunity?.time??u.ready,recovery=delay(b,u,a);
  let text='';
  if(a.kind==='swap'){
  const out=forced??u.id,old=b.units.find(x=>x.id===out)!;
- b.active[b.active.indexOf(out)]=t!.id;t!.ready=forced?time:time+35;
- text=`${t!.name} replaces ${old.name}${forced?' · forced, free':' · 35 ticks'}.`;
+ b.active[b.active.indexOf(out)]=t!.id;
+ if(forced){t!.ready=time;delete t!.recoveryUntil;delete b.opportunity;}
+ else b.opportunity={actor:t!.id,time};
+ text=`${t!.name} replaces ${old.name}${forced?' · forced, free':' · free, acts immediately'}.`;
  }else{
  u.mp-=costs[a.kind];
  if(a.kind==='guard'){u.guard=2;text=`${u.name} guards · damage halved until next action.`;}
  else if(a.kind==='protect'){b.units.filter(x=>x.hero&&b.active.includes(x.id)&&x.hp>0).forEach(x=>x.guard=2);text='Iona shelters the active keepers · 2 actions.';}
  else if(a.kind==='heal'||a.kind==='tonic'){const n=a.kind==='tonic'?90:95+u.power;t!.hp=Math.min(t!.maxHp,t!.hp+n);text=`${u.name} restores ${t!.name} · ${n} HP (capped).`;}
- else if(a.kind==='revive'||a.kind==='seed'){t!.hp=Math.ceil(t!.maxHp*.5);t!.ready=time+60;t!.slow=0;t!.guard=0;text=`${t!.name} returns · half HP, ready in 60 ticks.`;}
+ else if(a.kind==='revive'||a.kind==='seed'){t!.hp=Math.ceil(t!.maxHp*.5);t!.ready=time+60;t!.recoveryUntil=t!.ready;t!.slow=0;t!.guard=0;text=`${t!.name} returns · half HP, ready in 60 ticks.`;}
  else if(a.kind==='ether'){t!.mp=Math.min(t!.maxMp,t!.mp+18);text=`${t!.name} recovers 18 MP (capped).`;}
  else if(a.kind==='special'||a.kind==='lighthouse'){
  if(a.kind==='special')u.charge=0;else b.lighthouse=0;
@@ -83,10 +95,10 @@ export function act(before:Battle,a:Action,expectedRevision:number):Battle{
  }
  if(['tonic','ether','seed'].includes(a.kind))b.items[a.kind as keyof Journey['items']]--;
  if(u.hero&&a.kind!=='special')u.charge=Math.min(100,u.charge+18);
- u.ready=time+recovery;
+ recover(b,u,recovery);
  if(u.slow>0)u.slow--;if(u.guard>0&&a.kind!=='protect')u.guard--;
  }
- b.revision++;b.turns++;b.log=[text,...b.log].slice(0,8);
+ b.revision++;if(a.kind!=='swap'||forced)b.turns++;b.log=[text,...b.log].slice(0,8);
  if(!b.units.some(x=>!x.hero&&x.hp>0))b.outcome='won';
  else if(!b.units.some(x=>x.hero&&x.hp>0))b.outcome='lost';
  return b;
@@ -96,7 +108,7 @@ export function preview(b:Battle,a?:Action,count=8):string[]{
  if(a){try{p=act(p,a,p.revision);}catch{return [];}}
  for(let i=0;i<count;i++){
  const u=current(p);if(!u||p.outcome!=='playing')break;
- order.push(u.id);u.ready+=delay(p,u,{kind:u.hero?'attack':'enemy'});if(u.slow>0)u.slow--;if(u.guard>0)u.guard--;
+ order.push(u.id);recover(p,u,delay(p,u,{kind:u.hero?'attack':'enemy'}));if(u.slow>0)u.slow--;if(u.guard>0)u.guard--;
  }return order;
 }
 export function purchase(j:Journey,id:string):Journey{
