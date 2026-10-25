@@ -31,3 +31,7 @@ npm run build
 npm audit --audit-level=moderate
 ```
 See [specification](docs/SPEC.md), [glossary](GLOSSARY.md), [architecture decisions](docs/adr), [research](docs/RESEARCH.md), [review](docs/REVIEW.md), and [browser evidence](docs/QA.md). Desktop Chrome on this Mac and a 390×844 viewport were exercised. Responsive viewport testing does not establish physical mobile-device or screen-reader compatibility.
+
+## Play online
+
+[Play the hosted game](https://intrepion.github.io/kata-inspired-by-final-fantasy-x-codex-dot/)
