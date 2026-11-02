@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "gameId": "kata-inspired-by-final-fantasy-x-codex-dot",
+  "playUrl": "https://intrepion.github.io/kata-inspired-by-final-fantasy-x-codex-dot/",
+  "screenshots": [
+    {
+      "path": "arcade/screenshots/view-01.jpg",
+      "sha256": "0833cc4d61ff361589ff30b7b0c26a3809b0ed7c9cc411099bd9d6390d694ee5",
+      "alt": "Gameplay capture 1",
+      "provenance": {
+        "kind": "existing_repository_capture",
+        "sourcePath": "docs/screenshots/battle.jpg",
+        "deployedBuild": null,
+        "captureDate": null
+      }
+    }
+  ]
+}
