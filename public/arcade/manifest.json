@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "gameId": "kata-inspired-by-final-fantasy-x-codex-dot",
   "playUrl": "https://intrepion.github.io/kata-inspired-by-final-fantasy-x-codex-dot/",
   "screenshots": [
@@ -12,6 +12,46 @@
         "sourcePath": "docs/screenshots/battle.jpg",
         "deployedBuild": null,
         "captureDate": null
+      }
+    },
+    {
+      "path": "arcade/screenshots/ci-20261102-01.jpg",
+      "sha256": "e602b0ca558303a48b90ca8b9cc29ac2c8d01ec5f9f853ec87bcf3da374c05b9",
+      "alt": "Glasswake gameplay, view 1",
+      "provenance": {
+        "kind": "ci_gameplay_capture",
+        "sourcePath": "arcade/capture-evidence/ci-20261102-01.png",
+        "sourceSha256": "3b5f34990bafad92d02999ce40cbd8f8f94152f01e9c69f18820ea8e8bf58e12",
+        "captureCommit": "1ef4c8f10d8f4ee5b41cb5023d243eb05af67316",
+        "workflowRunId": "41442203732",
+        "inputHashes": {
+          "index.html": "35ddc2d5c7efadd046afbcd92bf4069d8b2fcd64536f85000d72f16966e2a2f2",
+          "assets/index-BqU3xsrD.js": "bb40d2b4fac8cd7e8dabae0f38c16e9782d822f07d698e51e74b3278c300f8f0",
+          "assets/index-CZp3_P-e.css": "754e88900f9c94f10ce0c7987c92352b9fe7878567cdf46cd68936d5ab4766e4"
+        },
+        "publishedFilesVerifiedAt": "2026-11-02T19:01:20Z",
+        "captureRecordPath": "arcade/capture-evidence/ci-20261102-record.json",
+        "captureRecordSha256": "2fdf4675e1e1a35ae63625a756940afab2f9ddfc4ead022983973c0c6d04f06c"
+      }
+    },
+    {
+      "path": "arcade/screenshots/ci-20261102-02.jpg",
+      "sha256": "e695280aed46aebb2a60ac03e2c1fe38eb70824b1ac78027733a7b84f135965e",
+      "alt": "Glasswake gameplay, view 2",
+      "provenance": {
+        "kind": "ci_gameplay_capture",
+        "sourcePath": "arcade/capture-evidence/ci-20261102-02.png",
+        "sourceSha256": "66fd4f1e5a52c17a0e707e2e564b40f9c7724a0f10681066bdd1f5a9d28c8166",
+        "captureCommit": "1ef4c8f10d8f4ee5b41cb5023d243eb05af67316",
+        "workflowRunId": "41442203732",
+        "inputHashes": {
+          "index.html": "35ddc2d5c7efadd046afbcd92bf4069d8b2fcd64536f85000d72f16966e2a2f2",
+          "assets/index-BqU3xsrD.js": "bb40d2b4fac8cd7e8dabae0f38c16e9782d822f07d698e51e74b3278c300f8f0",
+          "assets/index-CZp3_P-e.css": "754e88900f9c94f10ce0c7987c92352b9fe7878567cdf46cd68936d5ab4766e4"
+        },
+        "publishedFilesVerifiedAt": "2026-11-02T19:01:20Z",
+        "captureRecordPath": "arcade/capture-evidence/ci-20261102-record.json",
+        "captureRecordSha256": "2fdf4675e1e1a35ae63625a756940afab2f9ddfc4ead022983973c0c6d04f06c"
       }
     }
   ]
