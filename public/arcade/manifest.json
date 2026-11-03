@@ -4,54 +4,43 @@
   "playUrl": "https://intrepion.github.io/kata-inspired-by-final-fantasy-x-codex-dot/",
   "screenshots": [
     {
-      "path": "arcade/screenshots/view-01.jpg",
-      "sha256": "0833cc4d61ff361589ff30b7b0c26a3809b0ed7c9cc411099bd9d6390d694ee5",
-      "alt": "Gameplay capture 1",
+      "path": "arcade/screenshots/review-20261103-01.jpg",
+      "sha256": "f77016fee5c1914bb2a2587fd135eafded66e6a0ff19f2c179f8ef01fc4ba173",
+      "alt": "Glasswake gameplay after the mechanics update, view 1",
       "provenance": {
-        "kind": "existing_repository_capture",
-        "sourcePath": "docs/screenshots/battle.jpg",
-        "deployedBuild": null,
-        "captureDate": null
+        "kind": "ci_gameplay_capture",
+        "sourcePath": "arcade/capture-evidence/review-20261103-01.png",
+        "sourceSha256": "6b5dd560d3442c2b6bbb54a51e1762a8f2fdf4623db9a3c5a30bb92d930633f8",
+        "captureCommit": "c4d8fc20603bf011517b2be5a281bd1c119f6f12",
+        "workflowRunId": "41675232679",
+        "inputHashes": {
+          "index.html": "05af58ce384c87341bb5955b7e45e887ea962e276d5cec4032c23607a1f0a5b2",
+          "assets/index-DgCec9SA.css": "6bfbd3202bbc595c6e0a9ee15e4f47bd264235c724a3bd676a0ec91832c8b815",
+          "assets/index-ByNQntLH.js": "818af18eda557af512a349774193b263d5031a57cbd317ff890232daddefb9ca"
+        },
+        "publishedFilesVerifiedAt": "2026-11-03T16:39:47Z",
+        "captureRecordPath": "arcade/capture-evidence/review-20261103-record.json",
+        "captureRecordSha256": "15fcb352d44c815ce461a18d24f41b574b02ddc20b48e31dcb119e23277c7577"
       }
     },
     {
-      "path": "arcade/screenshots/ci-20261102-01.jpg",
-      "sha256": "e602b0ca558303a48b90ca8b9cc29ac2c8d01ec5f9f853ec87bcf3da374c05b9",
-      "alt": "Glasswake gameplay, view 1",
+      "path": "arcade/screenshots/review-20261103-02.jpg",
+      "sha256": "af3f3937e91e48ccf97dae27290312e9aa1000f3f9d8392d4c0af5cf4deba49b",
+      "alt": "Glasswake gameplay after the mechanics update, view 2",
       "provenance": {
         "kind": "ci_gameplay_capture",
-        "sourcePath": "arcade/capture-evidence/ci-20261102-01.png",
-        "sourceSha256": "3b5f34990bafad92d02999ce40cbd8f8f94152f01e9c69f18820ea8e8bf58e12",
-        "captureCommit": "1ef4c8f10d8f4ee5b41cb5023d243eb05af67316",
-        "workflowRunId": "41442203732",
+        "sourcePath": "arcade/capture-evidence/review-20261103-02.png",
+        "sourceSha256": "c5d4ddf00ce503c57ae41240258011211787b68c04350acf7bbd36c1fd97bb56",
+        "captureCommit": "c4d8fc20603bf011517b2be5a281bd1c119f6f12",
+        "workflowRunId": "41675232679",
         "inputHashes": {
-          "index.html": "35ddc2d5c7efadd046afbcd92bf4069d8b2fcd64536f85000d72f16966e2a2f2",
-          "assets/index-BqU3xsrD.js": "bb40d2b4fac8cd7e8dabae0f38c16e9782d822f07d698e51e74b3278c300f8f0",
-          "assets/index-CZp3_P-e.css": "754e88900f9c94f10ce0c7987c92352b9fe7878567cdf46cd68936d5ab4766e4"
+          "index.html": "05af58ce384c87341bb5955b7e45e887ea962e276d5cec4032c23607a1f0a5b2",
+          "assets/index-DgCec9SA.css": "6bfbd3202bbc595c6e0a9ee15e4f47bd264235c724a3bd676a0ec91832c8b815",
+          "assets/index-ByNQntLH.js": "818af18eda557af512a349774193b263d5031a57cbd317ff890232daddefb9ca"
         },
-        "publishedFilesVerifiedAt": "2026-11-02T19:01:20Z",
-        "captureRecordPath": "arcade/capture-evidence/ci-20261102-record.json",
-        "captureRecordSha256": "2fdf4675e1e1a35ae63625a756940afab2f9ddfc4ead022983973c0c6d04f06c"
-      }
-    },
-    {
-      "path": "arcade/screenshots/ci-20261102-02.jpg",
-      "sha256": "e695280aed46aebb2a60ac03e2c1fe38eb70824b1ac78027733a7b84f135965e",
-      "alt": "Glasswake gameplay, view 2",
-      "provenance": {
-        "kind": "ci_gameplay_capture",
-        "sourcePath": "arcade/capture-evidence/ci-20261102-02.png",
-        "sourceSha256": "66fd4f1e5a52c17a0e707e2e564b40f9c7724a0f10681066bdd1f5a9d28c8166",
-        "captureCommit": "1ef4c8f10d8f4ee5b41cb5023d243eb05af67316",
-        "workflowRunId": "41442203732",
-        "inputHashes": {
-          "index.html": "35ddc2d5c7efadd046afbcd92bf4069d8b2fcd64536f85000d72f16966e2a2f2",
-          "assets/index-BqU3xsrD.js": "bb40d2b4fac8cd7e8dabae0f38c16e9782d822f07d698e51e74b3278c300f8f0",
-          "assets/index-CZp3_P-e.css": "754e88900f9c94f10ce0c7987c92352b9fe7878567cdf46cd68936d5ab4766e4"
-        },
-        "publishedFilesVerifiedAt": "2026-11-02T19:01:20Z",
-        "captureRecordPath": "arcade/capture-evidence/ci-20261102-record.json",
-        "captureRecordSha256": "2fdf4675e1e1a35ae63625a756940afab2f9ddfc4ead022983973c0c6d04f06c"
+        "publishedFilesVerifiedAt": "2026-11-03T16:39:47Z",
+        "captureRecordPath": "arcade/capture-evidence/review-20261103-record.json",
+        "captureRecordSha256": "15fcb352d44c815ce461a18d24f41b574b02ddc20b48e31dcb119e23277c7577"
       }
     }
   ]

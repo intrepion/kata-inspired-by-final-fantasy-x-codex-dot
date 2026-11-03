@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "workflowCommit": "c4d8fc20603bf011517b2be5a281bd1c119f6f12",
+  "sourceCommit": "c4d8fc20603bf011517b2be5a281bd1c119f6f12",
+  "runId": "41675232679",
+  "url": "http://127.0.0.1:4280/",
+  "inputs": {
+    "index.html": "05af58ce384c87341bb5955b7e45e887ea962e276d5cec4032c23607a1f0a5b2",
+    "assets/index-DgCec9SA.css": "6bfbd3202bbc595c6e0a9ee15e4f47bd264235c724a3bd676a0ec91832c8b815",
+    "assets/index-ByNQntLH.js": "818af18eda557af512a349774193b263d5031a57cbd317ff890232daddefb9ca"
+  },
+  "browser": "153.0.8010.12",
+  "viewport": {
+    "width": 1280,
+    "height": 1000
+  },
+  "screenshots": [
+    "glasswake-01.png",
+    "glasswake-02.png"
+  ]
+}
