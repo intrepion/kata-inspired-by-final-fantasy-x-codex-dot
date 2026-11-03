@@ -1,4 +1,6 @@
 # Glasswake · The Last Lantern
+
+[Kata Arcade](https://intrepion.github.io/)
 A complete original illustrated browser party RPG, inspired by the strategic patterns of Final Fantasy X. The ocean has turned to glass. Four lighthouse keepers carry one living flame through five beacons, confront the Stillheart, and bring tomorrow back.
 
 **Play:** http://127.0.0.1:5187/ on this Mac. `npm start` runs a detached session-only production preview. It survives the task/terminal ending, but not logout/reboot or manual process termination. It prints its PID and stop command; logs are at `/tmp/glasswake-5187.log`. No boot/login autostart. Previous game repositories and ports 5173–5186 are untouched. This folder is a cloned repository, not a newly registered Codex sidebar project (no supported registration capability was available).
