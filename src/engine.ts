@@ -1,13 +1,14 @@
 import {chapters,heroes,nodes,type Element} from './content';
-export type Journey={version:1;chapter:number;coins:number;sparks:number;nodes:string[];items:{tonic:number;ether:number;seed:number}};
+export type HeroId=typeof heroes[number]['id'];
+export type Journey={version:1;chapter:number;coins:number;sparks:number;nodes:string[];owners?:Partial<Record<'heart'|'edge'|'well',HeroId>>;items:{tonic:number;ether:number;seed:number}};
 export type Unit={id:string;name:string;hero:boolean;hp:number;maxHp:number;mp:number;maxMp:number;power:number;speed:number;ready:number;recoveryUntil?:number;charge:number;slow:number;guard:number;weak:Element;resist:Element;armor:boolean;form:string};
 export type Battle={chapter:number;units:Unit[];active:string[];items:Journey['items'];revision:number;turns:number;lighthouse:number;ward:number;tempo:number;outcome:'playing'|'won'|'lost';log:string[];opportunity?:{actor:string;time:number}};
 export type Action={kind:'attack'|'ember'|'tide'|'volt'|'heal'|'revive'|'bind'|'protect'|'guard'|'special'|'lighthouse'|'tonic'|'ether'|'seed'|'swap'|'enemy';target?:string};
 export const fresh=():Journey=>({version:1,chapter:0,coins:60,sparks:0,nodes:['root'],items:{tonic:4,ether:2,seed:2}});
 export function startBattle(j:Journey):Battle{
  if(j.chapter>=chapters.length) throw Error('The journey is complete.');
- const hp=j.nodes.includes('heart')?40:0,mp=j.nodes.includes('well')?12:0,power=j.nodes.includes('edge')?8:0;
- return {chapter:j.chapter,units:[...heroes.map(h=>({id:h.id,name:h.name,hero:true,hp:h.hp+hp,maxHp:h.hp+hp,mp:h.mp+mp,maxMp:h.mp+mp,power:h.power+power,speed:h.speed,ready:h.id==='tavi'?0:h.id==='iona'?15:h.id==='sable'?25:30,charge:0,slow:0,guard:0,weak:'none' as Element,resist:'none' as Element,armor:false,form:'hero'})),...chapters[j.chapter].foes.map((e,i)=>({id:`foe${i}`,name:e.name,hero:false,hp:e.hp,maxHp:e.hp,mp:0,maxMp:0,power:e.power,speed:e.speed,ready:45+i*10,charge:0,slow:0,guard:0,weak:e.weak,resist:e.resist,armor:e.armor,form:e.form}))],active:['iona','sable','tavi'],items:{...j.items},revision:0,turns:0,lighthouse:j.nodes.includes('beacon')?40:0,ward:j.nodes.includes('ward')?5:0,tempo:j.nodes.includes('tempo')?15:0,outcome:'playing',log:['The flame steadies. Choose your moment.']};
+ const owns=(node:'heart'|'edge'|'well',id:HeroId)=>j.nodes.includes(node)&&(!j.owners?.[node]||j.owners[node]===id);
+ return {chapter:j.chapter,units:[...heroes.map(h=>({id:h.id,name:h.name,hero:true,hp:h.hp+(owns('heart',h.id)?40:0),maxHp:h.hp+(owns('heart',h.id)?40:0),mp:h.mp+(owns('well',h.id)?12:0),maxMp:h.mp+(owns('well',h.id)?12:0),power:h.power+(owns('edge',h.id)?8:0),speed:h.speed,ready:h.id==='tavi'?0:h.id==='iona'?15:h.id==='sable'?25:30,charge:0,slow:0,guard:0,weak:'none' as Element,resist:'none' as Element,armor:false,form:'hero'})),...chapters[j.chapter].foes.map((e,i)=>({id:`foe${i}`,name:e.name,hero:false,hp:e.hp,maxHp:e.hp,mp:0,maxMp:0,power:e.power,speed:e.speed,ready:45+i*10,charge:0,slow:0,guard:0,weak:e.weak,resist:e.resist,armor:e.armor,form:e.form}))],active:['iona','sable','tavi'],items:{...j.items},revision:0,turns:0,lighthouse:j.nodes.includes('beacon')?40:0,ward:j.nodes.includes('ward')?5:0,tempo:j.nodes.includes('tempo')?15:0,outcome:'playing',log:['The flame steadies. Choose your moment.']};
 }
 export function current(b:Battle):Unit|undefined{
  const incoming=b.opportunity&&b.units.find(u=>u.id===b.opportunity!.actor&&u.hp>0&&b.active.includes(u.id));
@@ -111,9 +112,11 @@ export function preview(b:Battle,a?:Action,count=8):string[]{
  order.push(u.id);recover(p,u,delay(p,u,{kind:u.hero?'attack':'enemy'}));if(u.slow>0)u.slow--;if(u.guard>0)u.guard--;
  }return order;
 }
-export function purchase(j:Journey,id:string):Journey{
+export function purchase(j:Journey,id:string,owner?:HeroId):Journey{
  const n=nodes.find(x=>x.id===id);if(!n||j.nodes.includes(id)||!n.links.some(x=>j.nodes.includes(x))||j.sparks<n.cost)throw Error('Node needs a connected light and enough sparks.');
- return {...j,sparks:j.sparks-n.cost,nodes:[...j.nodes,id]};
+ if(owner&&!heroes.some(h=>h.id===owner))throw Error('Choose a valid keeper.');
+ const personal=['heart','edge','well'].includes(id);
+ return {...j,sparks:j.sparks-n.cost,nodes:[...j.nodes,id],...(personal&&owner?{owners:{...j.owners,[id]:owner}}:{})};
 }
 export const prices={tonic:20,ether:25,seed:35};
 export function buy(j:Journey,item:keyof Journey['items']):Journey{
@@ -128,10 +131,11 @@ export function decodeSave(raw:string):Journey|undefined{
  try{
  const j=JSON.parse(raw) as Journey;const int=(x:unknown,max:number)=>typeof x==='number'&&Number.isInteger(x)&&x>=0&&x<=max;
  if(!j||j.version!==1||!int(j.chapter,5)||!int(j.coins,10000)||!int(j.sparks,15)||!Array.isArray(j.nodes)||!j.nodes.includes('root')||new Set(j.nodes).size!==j.nodes.length||!j.nodes.every(x=>typeof x==='string'&&nodes.some(n=>n.id===x))||!j.items||!Object.keys(prices).every(k=>int(j.items[k as keyof Journey['items']],99)))return;
+ if(j.owners!==undefined&&(!j.owners||typeof j.owners!=='object'||Array.isArray(j.owners)||Object.entries(j.owners).some(([key,value])=>!['heart','edge','well'].includes(key)||!j.nodes.includes(key)||!heroes.some(h=>h.id===value))))return;
  const reached=['root'];let pending=j.nodes.filter(x=>x!=='root');
  while(pending.length){const id=pending.find(x=>nodes.find(n=>n.id===x)!.links.some(l=>reached.includes(l)));if(!id)return;reached.push(id);pending=pending.filter(x=>x!==id);}
  const spent=j.nodes.reduce((sum,id)=>sum+nodes.find(n=>n.id===id)!.cost,0);
  if(spent+j.sparks!==j.chapter*3)return;
- return {version:1,chapter:j.chapter,coins:j.coins,sparks:j.sparks,nodes:[...j.nodes],items:{...j.items}};
+ return {version:1,chapter:j.chapter,coins:j.coins,sparks:j.sparks,nodes:[...j.nodes],...(j.owners?{owners:{...j.owners}}:{}),items:{...j.items}};
  }catch{return;}
 }

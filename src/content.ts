@@ -7,9 +7,9 @@ export const heroes=[
 ] as const;
 export const nodes=[
  {id:'root',name:'First light',cost:0,links:[],description:'Our four paths begin here.',x:50,y:50},
- {id:'heart',name:'Deep breath',cost:2,links:['root'],description:'+40 maximum HP · all keepers',x:27,y:30},
- {id:'edge',name:'Bright edge',cost:2,links:['root'],description:'+8 attack and spell power · all keepers',x:73,y:30},
- {id:'well',name:'Inner well',cost:2,links:['root'],description:'+12 maximum MP · all keepers',x:50,y:76},
+ {id:'heart',name:'Deep breath',cost:2,links:['root'],description:'+40 maximum HP · selected keeper',x:27,y:30},
+ {id:'edge',name:'Bright edge',cost:2,links:['root'],description:'+8 attack and spell power · selected keeper',x:73,y:30},
+ {id:'well',name:'Inner well',cost:2,links:['root'],description:'+12 maximum MP · selected keeper',x:50,y:76},
  {id:'ward',name:'Weathered hands',cost:3,links:['heart','well'],description:'All incoming damage reduced by 5',x:20,y:70},
  {id:'tempo',name:'Open horizon',cost:3,links:['edge','well'],description:'Every recovery delay reduced by 15 ticks',x:80,y:70},
  {id:'beacon',name:'Many as one',cost:3,links:['heart','edge'],description:'Lighthouse starts each encounter at 40%',x:50,y:12},

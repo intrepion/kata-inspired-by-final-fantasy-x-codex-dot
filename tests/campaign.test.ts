@@ -1,10 +1,10 @@
 import {expect,test} from 'vitest';
 import {fresh,startBattle,current,forcedSlot,act,complete,purchase,decodeSave,type Action,type Journey} from '../src/engine';
 import {chapters} from '../src/content';
-function runCampaign(upgrades:boolean){
+function runCampaign(upgrades:boolean,personal=false){
  let j=fresh();const report:string[]=[];
  for(let chapter=0;chapter<5;chapter++){
-  if(upgrades)for(const id of ['edge','heart','well','tempo','ward','beacon']){try{j=purchase(j,id);}catch{/* unreachable or unaffordable branch waits */}}
+  if(upgrades)for(const id of ['edge','heart','well','tempo','ward','beacon']){try{j=purchase(j,id,personal?(id==='edge'?'sable':id==='heart'?'iona':'orin'):undefined);}catch{/* unreachable or unaffordable branch waits */}}
   let b=startBattle(j),n=0;
   while(b.outcome==='playing'&&n++<300){
    const u=current(b)!;const fallen=forcedSlot(b);let a:Action;
@@ -30,3 +30,5 @@ function runCampaign(upgrades:boolean){
 }
 test('entire campaign is solvable through public commands with connected upgrades',()=>{runCampaign(true);});
 test('entire campaign is solvable even if all progression currency is banked',()=>{const j:Journey=runCampaign(false);expect(j.sparks).toBe(15);});
+
+test('campaign remains solvable with individual keeper lights',()=>{const j=runCampaign(true,true);expect(j.owners?.edge).toBe('sable');});
